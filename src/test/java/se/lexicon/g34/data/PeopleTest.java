@@ -22,7 +22,7 @@ public class PeopleTest {
         Person searchPerson;
         for (int i = -1; i < peopleList.size() + 1; i++) {//If Persons is removed and new is added this test will not find them.
             System.out.println("Search for person with Id=" + i);
-            searchPerson = peopleList.findByID(i);
+            searchPerson = peopleList.findById(i);
             if (searchPerson.getPersonId() == -1) {
                 System.out.println("Person with Id " + i + " can't be found");
                 continue;

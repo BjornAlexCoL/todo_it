@@ -23,7 +23,7 @@ public class People {
 
     }
 
-    public Person findByID(int findPerson) {
+    public Person findById(int findPerson) {
         if (findPerson>=0 ) {
             for (Person checkPerson : personList) {
                 if (findPerson == checkPerson.getPersonId()) {
