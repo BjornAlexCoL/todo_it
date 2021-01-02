@@ -4,7 +4,9 @@ import se.lexicon.g34.model.Person;
 import se.lexicon.g34.model.Todo;
 
 
+import java.sql.Array;
 import java.util.Arrays;
+import java.util.function.ToDoubleFunction;
 
 public class TodoItems {
     private Todo[] todoList = new Todo[0];
@@ -23,7 +25,7 @@ public class TodoItems {
         return todoList;
     }
 
-    public Todo findByID(int findTodo) {
+    public Todo findById(int findTodo) {
         if (findTodo >= 0) {
             for (Todo checkTodo : todoList) {
                 if (findTodo == checkTodo.getTodoId()) {
@@ -52,6 +54,7 @@ public class TodoItems {
         todoList[size() - 1] = newTodo;
         return newTodo;
     }
+
 
     public void clear() { //Leaving room to make control before deleting whole list.
         clearTodoList();
@@ -102,6 +105,26 @@ public class TodoItems {
         return resultList.findAll();
     }
 
+    public void removeTodo(Todo removeTodo){// Remove by using todoobject
+        int findIndex=getTodoListIndex(removeTodo);
+        removeTodo(findIndex);
+    }
+    public void removeTodo(int index){
+        if (index>=0 && index<todoList.length ) {
+            Todo[] firstPart;
+            firstPart = Arrays.copyOfRange(todoList, 0, index);
+            Todo[] secondPart;
+            secondPart = Arrays.copyOfRange(todoList, index + 1, todoList.length);
+            todoListConcat(firstPart, secondPart);
+        }
+    }
+
+    private void todoListConcat(Todo[] arrayToAddTo,Todo[] arrayToAdd){
+        todoList=arrayToAddTo;
+        for (Todo todoToAdd:arrayToAdd){
+            addTodo(todoToAdd);
+        }
+    }
     private int getTodoListIndex(Todo findTodo) {
         int findTodoId = findTodo.getTodoId();
         return getTodolistIndex(findTodoId);

@@ -32,7 +32,7 @@ public class TodoItemsTest {
         Todo searchTodo;
         for (int i = -1; i < todoList.size() + 1; i++) {//If Persons is removed and new is added this test will not find them.
             System.out.println("Search for Todo with Id=" + i);
-            searchTodo = todoList.findByID(i);
+            searchTodo = todoList.findById(i);
             if (searchTodo.getTodoId() == -1) {
                 System.out.println("Todo with Id " + i + " can't be found");
                 continue;
@@ -46,8 +46,8 @@ public class TodoItemsTest {
         System.out.println("Search the TodoItems after done Todo's");
         findResultList = todoList.findByDoneStatus(true);
         printTodoList(findResultList);
-        todoList.setIsDone(todoList.findByID(1)); //Todoitem 1 is done
-        todoList.setIsDone(todoList.findByID(3));//Todoitem 3 is done
+        todoList.setIsDone(todoList.findById(1)); //Todoitem 1 is done
+        todoList.setIsDone(todoList.findById(3));//Todoitem 3 is done
         System.out.println("Todo 1 and 3 is done check again");
         findResultList = todoList.findByDoneStatus(true);
         printTodoList(findResultList);
@@ -56,8 +56,8 @@ public class TodoItemsTest {
         findResultList = todoList.findByDoneStatus(false);
         printTodoList(findResultList);
         System.out.println("Todo 1 and 3 is reset check again");
-        todoList.clearIsDone(todoList.findByID(1)); //Todoitem 1 is done
-        todoList.clearIsDone(todoList.findByID(3));//Todoitem 3 is done
+        todoList.clearIsDone(todoList.findById(1)); //Todoitem 1 is done
+        todoList.clearIsDone(todoList.findById(3));//Todoitem 3 is done
         findResultList = todoList.findByDoneStatus(false);
         printTodoList(findResultList);
     }
@@ -75,8 +75,8 @@ public class TodoItemsTest {
         findResultList = todoList.findUnassignedTodoItems();
         printTodoList(findResultList);
         System.out.println("Assigning 1 and 3");
-        todoList.setTodoAssignee(todoList.findByID(3), volontares.findById(1));
-        todoList.setTodoAssignee(todoList.findByID(1), volontares.findById(0));
+        todoList.setTodoAssignee(todoList.findById(3), volontares.findById(1));
+        todoList.setTodoAssignee(todoList.findById(1), volontares.findById(0));
         printTodoList(findResultList);
         System.out.println("Run another check");
         findResultList = todoList.findUnassignedTodoItems();//1 and 3 should be removed
@@ -104,12 +104,28 @@ public class TodoItemsTest {
 
     }
 
+    @Test
+    public void TestRemoveTodo() {
+        System.out.println("Removo post with id 3"); //Common remove by ID
+        todoList.removeTodo(3);
+        printTodoList(todoList.findAll());
+        System.out.println("\nTry to Removo post with nonexisting id 45"); //Try to removing post with nonexisting ID
+        todoList.removeTodo(45);
+        printTodoList(todoList.findAll());
+        System.out.print("\nRemovo post with Todo "); //Get Todoobject from index and remove it by todoobject
+        printTodo(todoList.findById(2));
+        todoList.removeTodo(todoList.findById(2));
+        printTodoList(todoList.findAll());
+
+
+    }
+
     public void assignmentsOfTodo() {//assing todos to persons
-        todoList.setTodoAssignee(todoList.findByID(0), volontares.findById(1));
-        todoList.setTodoAssignee(todoList.findByID(1), volontares.findById(0));
-        todoList.setTodoAssignee(todoList.findByID(2), volontares.findById(0));
-        todoList.setTodoAssignee(todoList.findByID(3), volontares.findById(1));
-        todoList.setTodoAssignee(todoList.findByID(4), volontares.findById(0));
+        todoList.setTodoAssignee(todoList.findById(0), volontares.findById(1));
+        todoList.setTodoAssignee(todoList.findById(1), volontares.findById(0));
+        todoList.setTodoAssignee(todoList.findById(2), volontares.findById(0));
+        todoList.setTodoAssignee(todoList.findById(3), volontares.findById(1));
+        todoList.setTodoAssignee(todoList.findById(4), volontares.findById(0));
 
     }
 

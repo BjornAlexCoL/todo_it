@@ -3,6 +3,7 @@ package se.lexicon.g34.data;
 
 import se.lexicon.g34.model.Person;
 import se.lexicon.g34.data.PersonSequencer;
+import se.lexicon.g34.model.Todo;
 
 import java.util.Arrays;
 
@@ -38,6 +39,9 @@ public class People {
     public Person addPerson(String firstName,String lastName) {
         int newId=counter.nextPersonId();
         Person newPerson=new Person(newId,firstName,lastName);
+        return addPerson(newPerson);
+    }
+    private Person addPerson(Person newPerson) { //Don't want everyone to add whole objects to list and get passed the counterID.
         personList=Arrays.copyOf(personList,size()+1);
         personList[size()-1]=newPerson;
         return newPerson;
@@ -47,7 +51,42 @@ public class People {
         clearPersonList();
     }
 
+    public void removePerson(Person removePerson){// Remove by using Personobject
+        int findIndex=getPersonListIndex(removePerson);
+        removePerson(findIndex);
+    }
+    public void removePerson(int index){
+        if (index>=0 && index<personList.length ) {
+            Person[] firstPart ;
+            firstPart = Arrays.copyOfRange(personList, 0, index);
+            Person[] secondPart;
+            secondPart = Arrays.copyOfRange(personList, index + 1, personList.length);
+            personListConcat(firstPart, secondPart);
+        }
+    }
 
+    private void personListConcat(Person[] arrayToAddTo,Person[] arrayToAdd){
+        personList=arrayToAddTo;
+        for (Person personToAdd:arrayToAdd){
+            addPerson(personToAdd);
+        }
+    }
+    private int getPersonListIndex(Person findPerson) {
+        int findPersonId = findPerson.getPersonId();
+        return getPersonlistIndex(findPersonId);
+    }
+
+    private int getPersonlistIndex(int findPersonId) {
+        int index = 0;
+        for (Person checkPerson : personList) {
+            if (findPersonId == checkPerson.getPersonId()) {
+                return index;
+            }
+            index++;
+        }
+        return -1;
+
+    }
     private void clearPersonList() {
         personList = new Person[0];
     }
